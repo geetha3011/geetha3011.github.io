@@ -51,6 +51,7 @@
 					'readonly': '',
 					 'tabindex': -1
 				})
+
 				.addClass('ik_value')
 				.wrap('<div></div>'); // wrap initial element in a div
 			
@@ -78,13 +79,15 @@
 				.on('mouseup', {'plugin': plugin}, plugin.onMouseUp)
 				.on('mouseleave', function(){ setTimeout(plugin.onMouseUp, 100, { 'data': {'plugin': plugin} }) });
 
-		$('<div/>') // add instructions for screen reader users
+$('<div/>') // add instructions for screen reader users
     		.attr({
 		'id': id + '_instructions'
     })
     .text(this.options.instructions)
     .addClass('ik_readersonly')
     .appendTo(this.element);
+
+		
 				
 			$('<div/>') // add slider track
 				.addClass('ik_track')
@@ -191,6 +194,41 @@
 		}
 		
 	};
+
+Plugin.prototype.onKeyDown = function (event) {
+   
+    var $elem, plugin, value;
+   
+    $elem = $(this);
+    plugin = event.data.plugin;
+   
+    switch (event.keyCode) {
+       
+        case ik_utils.keys.right:
+           
+            value = parseInt($elem.attr('aria-valuenow')) + plugin.options.step;
+            value = value < plugin.options.maxValue ? value : plugin.options.maxValue;     
+            plugin.setValue(value);
+            break;
+           
+        case ik_utils.keys.end:
+            plugin.setValue(plugin.options.maxValue);
+            break;
+       
+        case ik_utils.keys.left:
+           
+            value = parseInt($elem.attr('aria-valuenow')) - plugin.options.step;
+            value = value > plugin.options.minValue ? value : plugin.options.minValue
+            plugin.setValue(value);
+            break;
+       
+        case ik_utils.keys.home:
+            plugin.setValue(plugin.options.minValue);
+            break;
+           
+    }
+   
+};
 	
 	/** 
 	 * Mouseup event handler.
