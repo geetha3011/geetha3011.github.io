@@ -143,6 +143,14 @@
 * @param {object} event.data - Event data.
 * @param {object} event.data.plugin - Reference to plugin.
 */
+/*
+
+Note:
+Add arrow key navigation between tabs, and between tabs and panels. 
+		Tab navigation and Enter keys are enabled by default and do not need to be defined here.
+	*/
+
+
 Plugin.prototype.onKeyDown = function (event) {
     var plugin = event.data.plugin,
         ind = event.data.index,
