@@ -113,9 +113,9 @@ $me.attr({
 		plugin.menuitems // setup event handlers
 			.on('mouseenter', plugin.showSubmenu)
 			.on('mouseleave', plugin.hideSubmenu)
-			.on('click', {'plugin': plugin}, plugin.activateMenuItem);
-			 .on("keydown", {'plugin': plugin}, plugin.onKeyDown)
-		$(window).on('resize', function(){ plugin.collapseAll(plugin); } ); // collapse all submenues when window is resized
+			.on('click', {'plugin': plugin}, plugin.activateMenuItem)
+			 .on("keydown", {'plugin': plugin}, plugin.onKeyDown);
+	
 		
 	};
 	
@@ -168,7 +168,7 @@ $me.attr({
    		$submenu.children('li').attr({'tabindex': -1});
 
 		}
-	}
+	};
 	
 	/** 
 	 * Collapses all submenus. Whem element is specified collapses all sumbenus inside that element.
@@ -312,7 +312,7 @@ Plugin.prototype.onKeyDown = function (event) {
            
             break;
     }
-}
+};
 
 
 	$.fn[pluginName] = function ( options ) {
