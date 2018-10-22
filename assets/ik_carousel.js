@@ -23,7 +23,7 @@
 		
 		this.init();
 	
-	};
+	}
 	
 	/** Initializes plugin. */
 	Plugin.prototype.init = function () {
@@ -44,7 +44,7 @@
 			.addClass('ik_carousel')
 			 .on('keydown', {'plugin': plugin}, plugin.onKeyDown)
 			.on('focusin mouseenter', {'plugin': plugin}, plugin.stopTimer)
-			.on('focusout mouseleave', {'plugin': plugin}, plugin.startTimer)
+			.on('focusout mouseleave', {'plugin': plugin}, plugin.startTimer);
 		
 		$controls = $('<div/>')
 			 .attr({
@@ -86,6 +86,17 @@
 					.on('click', {'plugin': plugin, 'slide': i}, plugin.gotoSlide)
 					.appendTo($navbar);
 			});
+			
+	$('<div/>') // add instructions for screen reader users
+	    .attr({
+        	'id': id + '_instructions',
+	        'aria-hidden': 'true'
+    })
+    .text(this.options.instructions)
+    .addClass('ik_readersonly')
+    .appendTo($elem);
+
+
 		
 		plugin.navbuttons = $navbar.children('li');
 		plugin.slides.first().addClass('active');
@@ -115,6 +126,11 @@
 		
 		plugin.timer = setInterval(plugin.gotoSlide, plugin.options.animationSpeed, {'data':{'plugin': plugin, 'slide': 'right'}});
 		
+		if (event.type === 'focusout') {
+   		 plugin.element.removeAttr('aria-live');
+		}
+
+		
 	};
 	
 	/** 
@@ -130,26 +146,14 @@
 		clearInterval(plugin.timer);
 		plugin.timer = null;
 		
-	};
-
-
  		if (event.type === 'focusin') {
   		  plugin.element.attr({'aria-live': 'polite'});
  		}
-
-		if (event.type === 'focusout') {
-   		 plugin.element.removeAttr('aria-live');
-		}
+		
+	};
 
 
-	$('<div/>') // add instructions for screen reader users
-	    .attr({
-        	'id': id + '_instructions',
-	        'aria-hidden': 'true'
-    })
-    .text(this.options.instructions)
-    .addClass('ik_readersonly')
-    .appendTo($elem);
+
 
 
 	/** 
@@ -176,7 +180,7 @@
 				direction = 'left';
 				n = index == 0 ? plugin.slides.length - 1 : --index;
 			} else {
-				direction = 'right'
+				direction = 'right';
 				n = index == plugin.slides.length - 1 ? 0 : ++index;
 			}
 			
@@ -199,14 +203,14 @@
 			dir = event.data.dir;
 			
 			active
-.attr({
+			.attr({
 			        'aria-hidden': 'true'
 				    })
 			.off( ik_utils.getTransitionEventName() )
 				.removeClass(direction + ' active');
 				
 			next
-.attr({
+			.attr({
 		        'aria-hidden': 'false'
     			})
 
@@ -217,7 +221,7 @@
 		
 		plugin.navbuttons.removeClass('active').eq(n).addClass('active');
 		
-	}
+	};
 /**
 * Handles keydown event on the next/prev links.
 *
@@ -243,7 +247,7 @@ Plugin.prototype.onKeyDown = function (event) {
             plugin.element.blur();
             break;
         }
-    }
+    };
 
 	
 	$.fn[pluginName] = function ( options ) {
@@ -257,6 +261,6 @@ Plugin.prototype.onKeyDown = function (event) {
 			
 		});
 		
-	}
+	};
 	
 })( jQuery, window, document );
