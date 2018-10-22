@@ -172,6 +172,6 @@ this.headers = $elem.children('dt')
 			
 		});
 		
-	}
+	};
  
 })( jQuery, window, document );
